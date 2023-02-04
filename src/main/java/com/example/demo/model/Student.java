@@ -3,32 +3,38 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity(name = "Student")
-@Table(name = "students")
+@Table(name = "students", uniqueConstraints = {
+        @UniqueConstraint(name = "student_email_unique", columnNames = "student_email")  // a constraint will be added
+})
 public class Student {
 
-//    @Id
-//    @SequenceGenerator(
-//            name = "student_id_sequence",
-//            sequenceName = "student_id_sequence",
-//            allocationSize = 1
-//    )
-//    @GeneratedValue(
-//            generator = "student_id_sequence",
-//            strategy = GenerationType.SEQUENCE
-//    )
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "student_id_sequence",
+            sequenceName = "student_id_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            generator = "student_id_sequence",
+            strategy = GenerationType.SEQUENCE
+    )
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id", updatable = false)
     private Long id;  // Big serial data type
 
     @Column(name = "first_name", nullable = false, columnDefinition = "TEXT")
     private String firstName;
+
     @Column(name = "last_name", nullable = false, columnDefinition = "TEXT")
     private String lastName;
-    @Column(name = "student_email", nullable = false, columnDefinition = "TEXT", unique = true)  // a constraint will be added
+
+    @Column(name = "student_email", nullable = false, columnDefinition = "TEXT")
     private String email;
+
     @Column(name = "student_age", nullable = false)
     private Integer age;
+
     public Student() {
     }
 
